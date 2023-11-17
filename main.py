@@ -36,7 +36,7 @@ def speed_test():
 
 def measure_ping():
     try:
-        url = "https://www.google.com/"
+        url = "https://www.google.com"
         start_time = time.time()
         response = requests.get(url)
         end_time = time.time()
