@@ -37,12 +37,14 @@ def speed_test():
 
 def measure_ping():
     try:
-        # Use a general external site for ping test (like Google's DNS)
-        output = subprocess.run(["ping", "-c", "4", "8.8.8.8"], capture_output=True, text=True, timeout=10)
-        ping_data = output.stdout
-        return ping_data
-    except subprocess.TimeoutExpired:
-        return 'Ping request timed out.'
+        url = "https://www.google.com"
+        start_time = time.time()
+        response = requests.get(url)
+        end_time = time.time()
+        latency = end_time - start_time
+        return f"Ping to {url}: {latency:.2f} seconds"
+    except requests.RequestException as e:
+        return f'Ping request failed: {e}'
 
 def measure_download_speed(urls):
     download_speeds = []
