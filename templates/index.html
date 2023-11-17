@@ -1,0 +1,45 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Speed Test</title>
+</head>
+<body>
+  <button id="startBtn">Start Test</button>
+  <div id="result"></div>
+  
+  <script>
+    document.getElementById('startBtn').addEventListener('click', async function() {
+      try {
+        const speedTestResponse = await fetch('/speed-test', {
+          method: 'POST'
+        });
+        const speedTestData = await speedTestResponse.json();
+
+        // Display the fetched data in the console
+        console.log('Ping Time:', speedTestData.ping_result);
+        console.log('Download Speed:', speedTestData.download_speed);
+        console.log('Uploaded File URL:', speedTestData.uploaded_file_url);
+        console.log('Downloaded Data:', speedTestData.downloaded_data);
+        console.log('Uploaded Data:', speedTestData.uploaded_data);
+        console.log('Upload Speed:', speedTestData.upload_speed);
+
+        // Display the fetched data on the webpage
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+          <h3>Speed Test Results:</h3>
+          <p>Ping Time: ${speedTestData.ping_result}</p>
+          <p>Download Speed: ${speedTestData.download_speed} Mbps</p>
+          <p>Uploaded File URL: <a href="${speedTestData.uploaded_file_url}">${speedTestData.uploaded_file_url}</a></p>
+          <p>Downloaded Data: ${speedTestData.downloaded_data} MB</p>
+          <p>Uploaded Data: ${speedTestData.uploaded_data} MB</p>
+          <p>Upload Speed: ${speedTestData.upload_speed} Mbps</p>
+        `;
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
